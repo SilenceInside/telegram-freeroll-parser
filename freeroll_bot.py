@@ -14,6 +14,7 @@ api_hash = config['Telegram']['api_hash']
 username = config['Telegram']['username']
 
 client = TelegramClient(username, int(api_id), api_hash)
+print("Test version\n")
 
 
 @client.on(events.NewMessage(chats=URL))
@@ -31,12 +32,15 @@ async def get_new_msg(event):
 def check_room(message):
     """Проверяет находится ли рум в белом списке"""
     white_list = config['Telegram']['white_list']
-    room_name = message.to_dict()['message'][:20]
-    room_name = room_name.split()[0]
-    if room_name in white_list:
-        return True
-    else:
-        return False
+    message: str = message.to_dict()['message']
+
+    for room in white_list:
+        index: int = message.find(room, 0, 20)
+
+        if index != -1:
+            return True
+
+    return False
 
 
 client.start()
