@@ -1,4 +1,5 @@
 import configparser
+import os
 
 from telethon.sync import TelegramClient, events
 
@@ -6,11 +7,11 @@ URL = "https://t.me/uapoker_passwords"
 
 # Считываем учетные данные
 config = configparser.ConfigParser()
-config.read("config.ini")
+config.read("config_heroku.ini")
 
 # Присваиваем значения внутренним переменным
 api_id = config['Telegram']['api_id']
-api_hash = config['Telegram']['api_hash']
+api_hash = os.environ.get('api_hash')
 username = config['Telegram']['username']
 
 client = TelegramClient(username, int(api_id), api_hash)
