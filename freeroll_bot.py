@@ -20,11 +20,10 @@ print("Test version\n")
 @client.on(events.NewMessage(chats=URL))
 async def get_new_msg(event):
     """Создает событие при появлении нового сообщения в чате"""
-    await event.message.mark_read()  # пометить сообщение прочитанным
 
-    # Если рум находится в белом списке, отправляет message пользователю
-    if check_room(event.message):
-        await client.send_message(username, event.message)
+    # Если рум не в белом списке, сообщение отмечается прочитанным
+    if not check_room(event.message):
+        await event.message.mark_read()  # пометить сообщение прочитанным
 
     print(event.message.to_dict()['message'])
 
