@@ -20,14 +20,8 @@ client = TelegramClient(username, int(api_id), api_hash)
 @client.on(events.NewMessage(chats=URL))
 async def get_new_msg(event):
     """Создает событие при появлении нового сообщения в чате"""
-    await event.message.mark_read()  # пометить сообщение прочитанным
-
-    # Если рум находится в белом списке, отправляет message пользователю
-    if check_room(event.message):
-        await client.send_message(username, event.message)
-        print("Message sent")
-
-    print("Message blocked")
+    if not check_room(event.message):
+        await event.message.mark_read()
 
 
 def check_room(message):
