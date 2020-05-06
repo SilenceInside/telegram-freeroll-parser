@@ -31,7 +31,7 @@ async def get_new_msg(event):
 
 def check_room(message):
     """Проверяет находится ли рум в белом списке"""
-    white_list = config['Telegram']['white_list']
+    white_list = config['Telegram']['white_list'].split(", ")
     message: str = message.to_dict()['message']
 
     for room in white_list:
